@@ -1,8 +1,11 @@
+import java.sql.SQLOutput;
+import java.util.Scanner;
+
 interface Command{
-    public String Leviosa();
-    public String Descendo();
-    public String Accio();
-    public String Depulso();
+    public void Leviosa();
+    public void Descendo();
+    public void Accio();
+    public void Depulso();
  //   public void Undo();
 }
 
@@ -11,37 +14,33 @@ class SpellCommand implements Command{
 
 
 
-    public SpellCommand(MagicalCube magicCube, String spell){
-        _magicalCube = magicCube;
-        this.spell = spell;
 
-    }
 
-    public String Leviosa(){
+    public void Leviosa(){
         System.out.println("Leviosa!");
-        spell = "Leviosa";
-        return spell;
+
+
 
 
     }
-    public String Descendo(){
+    public void Descendo(){
         System.out.println("Descendo!");
-        spell = "Descendo";
-        return spell;
+
+
 
 
     }
-    public String Accio(){
+    public void Accio(){
         System.out.println("Accio!");
-        spell = "Accio";
-        return spell;
+
+
 
 
     }
-    public String Depulso(){
+    public void Depulso(){
         System.out.println("Depulso!");
-        spell = "Depulso";
-        return spell;
+
+
 
 
     }
@@ -75,32 +74,24 @@ class MagicalCube{
         System.out.println("The cube moved up!");
         current_state = "moved up";
     }
+
     public void moveDown(){
         System.out.println("The cube moved down!");
         current_state = "moved down";
     }
+
     public void moveNear(){
         System.out.println("The cube came near!");
         current_state = "came near";
     }
+
     public void moveAway(){
         System.out.println("The cube is sent far away!");
         current_state = "is sent far away";
     }
 
-    public void Magic(String _spell){
-        switch (_spell) {
-            case "Leviosa":
-                 current_state = "moved up";break;
-            case "Descendo":
-                current_state = "moved down";break;
-            case "Accio":
-                current_state = "came near";break;
-            case "Depulso":
-                current_state = "is sent far away";break;
-        }
-        System.out.println("The Cube "+ current_state + "!" );
-    }
+
+
 
     private String current_state;
 }
@@ -110,34 +101,58 @@ class MagicalCube{
 class Wand {
     public Wand(){current_state = "stands still"; }
 
-    String activateSpell(String willCast){
+    public String returningSpell;
+
+    public String activateSpell(int willCast){
 
             switch (willCast) {
-                case "Leviosa":
+                case 1:
                     System.out.println("Wand casts the spell Leviosa!");
-                    willCast = "Leviosa"; break;
-                case "Descendo":
+                    returningSpell = "Leviosa"; break;
+                case 2:
                     System.out.println("Wand casts the spell Descendo!");
-                    willCast = "Descendo"; break;
-                case "Accio":
+                    returningSpell = "Descendo"; break;
+                case 3:
                     System.out.println("Wand casts the spell Accio!");
-                    willCast = "Accio"; break;
-                case "Depulso":
+                    returningSpell = "Accio"; break;
+                case 4:
                     System.out.println("Wand casts the spell Depulso!");
-                    willCast = "Depulso"; break;
+                    returningSpell = "Depulso"; break;
             }
-        return willCast;
+        return returningSpell;
     }
 
 
 
 
 
-    public void Reverte (){
+/*
+    public String Reverte (int willCast){
         if ( current_state != "stands still"){
+            switch (willCast) {
+                case 1:
+                    System.out.println("Wand casts the spell Leviosa!");
+                    returningSpell = "Leviosa"; break;
+                case 2:
+                    System.out.println("Wand casts the spell Descendo!");
+                    returningSpell = "Descendo"; break;
+                case 3:
+                    System.out.println("Wand casts the spell Accio!");
+                    returningSpell = "Accio"; break;
+                case 4:
+                    System.out.println("Wand casts the spell Depulso!");
+                    returningSpell = "Depulso"; break;
+            }
+
         }
+
+        else{
+            System.out.println("There wasnt any spell on the object");
+        }
+        return returningSpell;
     }
 
+*/
 
 
     private String current_state;
@@ -149,66 +164,69 @@ class Witch{
     private Wand wand;
     private SpellCommand spellCommand;
 
+    public Witch() {
+        magicalCube = new MagicalCube();
+        wand = new Wand();
+        spellCommand = new SpellCommand();
+    }
     void create(int spell){
-        System.out.println("Please choose a spell (1 for leviosa, 2 for descendo, 3 for accio, 4 for depulso and -1 to put your wand down)");
+       // System.out.println("Please choose a spell (1 for leviosa, 2 for descendo, 3 for accio, 4 for depulso and -1 to put your wand down)");
+
         boolean x = true;
-        String temp = null;
         String temp2 = null;
-        while(x = true)
-        {
+
             switch (spell){
                 case 1:
-                    temp = spellCommand.Leviosa() ;
-                    temp2 = wand.activateSpell(temp);
+                    spellCommand.Leviosa() ;
+                    temp2 = wand.activateSpell(1);
+                    castSpell(temp2);
 
                     break;
 
                 case 2:
-                    temp = spellCommand.Descendo();
-                    temp2 = wand.activateSpell(temp);
+                    spellCommand.Descendo();
+                    temp2 = wand.activateSpell(2);
+                    castSpell(temp2);
 
                     break;
 
                 case 3:
-                    temp = spellCommand.Accio();
-                    temp2 = wand.activateSpell(temp);
+                    spellCommand.Accio();
+                    temp2 = wand.activateSpell(3);
+                    castSpell(temp2);
 
                     break;
 
                 case 4:
-                    temp =  spellCommand.Depulso();
-                    temp2 = wand.activateSpell(temp);
+                    spellCommand.Depulso();
+                    temp2 = wand.activateSpell(4);
+
 
                     break;
 
-                case -1:
-                    x = false;
-                    break;
             }
-        }
+
 
     }
 
-    void castSpell(){
+    void castSpell(String finalSpell){
+
+
+            switch (finalSpell) {
+                case "Leviosa":
+                    magicalCube.moveUp(); break;
+                case "Descendo":
+                    magicalCube.moveDown();break;
+                case "Accio":
+                    magicalCube.moveNear();break;
+                case "Depulso":
+                    magicalCube.moveAway();break;
+            }
+
+
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -217,5 +235,12 @@ class Witch{
 public class Test {
     public static void main(String[] args) {
 
+
+        Witch Hermione_Granger = new Witch();
+
+        Hermione_Granger.create(1);
+        Hermione_Granger.create(3);
+
     }
 }
+
